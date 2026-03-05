@@ -1,2 +1,2 @@
 # mlf-site
-This is a webiste that is hosted on Netlify
+This is a website that is hosted on Netlify
