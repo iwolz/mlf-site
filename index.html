@@ -433,20 +433,20 @@
       <p class="section-intro">A snapshot of what I'm working on, learning, and thinking about right now.</p>
       <div class="now-grid">
         <div class="now-card">
-          <h3>📚 Currently reading</h3>
-          <ul>
-            <li>
-              <strong>Fundamentals of Software Architecture</strong>
-              Mark Richards & Neal Ford
-              <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
-            </li>
-            <li>
-              <strong>Staff Engineer</strong>
-              Will Larson
-              <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
-            </li>
-          </ul>
-        </div>
+            <h3>Currently reading</h3>
+            <ul>
+              <li>
+                <strong>AI Engineering</strong>
+                Building Applications with Foundation Models — Chip Huyen
+                <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+              </li>
+              <li>
+                <strong>Onyx Storm</strong>
+                Rebecca Yarros
+                <div class="progress-bar"><div class="progress-fill" style="width:2%"></div></div>
+              </li>
+            </ul>
+          </div>
         <div class="now-card">
           <h3>🛠 Building / learning</h3>
           <ul>
@@ -645,7 +645,7 @@
     }
 
     list.innerHTML = posts.map((post, i) => `
-      <li class="post-item" onclick="openPost(${i === 0 || listId === 'writing-post-list' ? allPosts.indexOf(post) : i})">
+      <li class="post-item" onclick="openPost(${allPosts.findIndex(ap => ap.title === post.title && ap.date === post.date)})">
         <span class="post-title">${post.title}</span>
         <span class="post-meta">
           ${post.tag ? `<span class="tag ${post.tag}">${post.tag}</span>` : ''}
@@ -658,10 +658,18 @@
   function openPost(index) {
     const post = allPosts[index];
     if (!post) return;
+    
+    // Switch to writing page first
+    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-writing').classList.add('active');
+    const btn = document.getElementById('nav-writing');
+    if (btn) btn.classList.add('active');
 
+    // Show post reader
     document.getElementById('blog-list').style.display = 'none';
     document.getElementById('post-reader').style.display = 'block';
-
+    
     document.getElementById('post-header').innerHTML = `
       <span class="eyebrow">${post.tag || 'Writing'}</span>
       <h1 style="font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 0.5rem;">${post.title}</h1>
