@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omolola Omolambe — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #12110f;
+      --muted:    #5c574f;
+      --faint:    #a09a90;
+      --rule:     #e6e0d5;
+      --bg:       #f7f4ef;
+      --surface:  #edeae3;
+      --accent:   #b85c38;
+      --gold:     #c9952a;
+      --teal:     #2a7c8a;
+      --max:      820px;
+      --serif:    'Playfair Display', Georgia, serif;
+      --sans:     'Instrument Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16.5px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ─── NOISE TEXTURE overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(247,244,239,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+    }
+    nav .inner {
+      max-width: var(--max); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1rem; font-weight: 700;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+    }
+    nav ul { list-style: none; display: flex; gap: 1.8rem; }
+    nav a, nav button {
+      background: none; border: none;
+      font-family: var(--sans);
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      letter-spacing: 0.02em; cursor: pointer;
+      transition: color 0.15s; padding: 0;
+    }
+    nav a:hover, nav button:hover,
+    nav button.active { color: var(--ink); }
+    nav button.active {
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1px;
+      color: var(--accent);
+    }
+
+    /* ─── PAGES ─── */
+    .page { display: none; position: relative; z-index: 1; }
+    .page.active { display: block; }
+
+    /* ─── SHARED ─── */
+    section { padding: 5rem 2rem; }
+    .inner { max-width: var(--max); margin: 0 auto; }
+    section + section { border-top: 1px solid var(--rule); }
+
+    .eyebrow {
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.2rem;
+      display: block;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+      font-weight: 700; line-height: 1.18;
+      letter-spacing: -0.025em;
+      color: var(--ink); margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    h2 {
+      font-family: var(--serif);
+      font-size: 1.8rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--ink);
+      margin-bottom: 0.9rem; line-height: 1.25;
+    }
+    h3 {
+      font-family: var(--serif);
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .lead {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 540px; line-height: 1.8;
+      margin-bottom: 2.4rem;
+    }
+    .section-intro {
+      font-size: 0.97rem; color: var(--muted);
+      max-width: 500px; margin-bottom: 2.8rem; line-height: 1.75;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.65rem 1.5rem;
+      border-radius: 3px; font-size: 0.88rem; font-weight: 500;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all 0.15s; font-family: var(--sans);
+      letter-spacing: 0.01em;
+    }
+    .btn-primary { background: var(--ink); color: #fff; }
+    .btn-primary:hover { background: #2a2520; }
+    .btn-outline { border: 1.5px solid var(--rule); color: var(--muted); background: transparent; }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+    /* ─── HERO ─── */
+    #hero-section { padding: 7rem 2rem 5.5rem; }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-deco {
+      position: relative; height: 340px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-ring {
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid var(--rule);
+      position: absolute;
+      animation: spin 30s linear infinite;
+    }
+    .hero-ring:nth-child(2) {
+      width: 200px; height: 200px;
+      border-style: dashed; border-color: var(--surface);
+      animation-direction: reverse; animation-duration: 20s;
+    }
+    .hero-initials {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--rule);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 2rem; font-weight: 700;
+      color: var(--muted); z-index: 2;
+      letter-spacing: -0.02em;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .location-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; color: var(--faint);
+      margin-top: 2rem;
+    }
+    .location-tag::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #5bb37a;
+    }
+
+    /* ─── CARDS ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 1.7rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      border-color: #ccc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    }
+    .card-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem; display: block;
+    }
+    .card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .card a {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.83rem; font-weight: 500;
+      color: var(--teal); text-decoration: none;
+    }
+    .card a:hover { text-decoration: underline; }
+
+    /* ─── HORIZONTAL RULE ─── */
+    .ornament {
+      text-align: center; color: var(--rule);
+      font-size: 1.2rem; letter-spacing: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
+    /* ─── BLOG ─── */
+    .post-list { list-style: none; }
+    .post-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline; gap: 1.5rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--rule);
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .post-item:first-child { border-top: 1px solid var(--rule); }
+    .post-item:hover { opacity: 0.75; }
+    .post-title {
+      font-family: var(--serif);
+      font-size: 1.05rem; font-weight: 400;
+      color: var(--ink); line-height: 1.4;
+    }
+    .post-meta { display: flex; align-items: center; gap: 0.7rem; }
+    .post-date { font-size: 0.78rem; color: var(--faint); white-space: nowrap; }
+    .tag {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 0.18rem 0.55rem; border-radius: 2px;
+      background: var(--surface); border: 1px solid var(--rule);
+      color: var(--muted);
+    }
+    .tag.engineering { background: #eef5f0; border-color: #c5deca; color: #2d6e3e; }
+    .tag.learning    { background: #eef3f8; border-color: #c0d0e4; color: #2a4e7a; }
+    .tag.career      { background: #fdf4ec; border-color: #e8cfa8; color: #7a4a1a; }
+    .tag.books       { background: #f5f0fb; border-color: #d5c5ec; color: #5a3a8a; }
+
+    /* ─── BLOG POST READER ─── */
+    #post-reader { display: none; }
+    #post-reader.active { display: block; }
+    .post-back {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem; color: var(--muted);
+      cursor: pointer; padding: 1.5rem 2rem 0;
+      transition: color 0.15s;
+    }
+    .post-back:hover { color: var(--ink); }
+    .post-content {
+      max-width: var(--max); margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+    }
+    .post-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+    .post-body h2 { font-size: 1.4rem; margin: 2rem 0 0.8rem; }
+    .post-body p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.85; }
+    .post-body ul { color: var(--muted); padding-left: 1.5rem; margin-bottom: 1.2rem; }
+    .post-body li { margin-bottom: 0.4rem; line-height: 1.75; }
+    .post-body code {
+      font-family: 'Courier New', monospace; font-size: 0.88em;
+      background: var(--surface); padding: 0.15rem 0.4rem;
+      border-radius: 3px; color: var(--accent);
+    }
+
+    /* ─── NOW PAGE ─── */
+    .now-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem; margin-bottom: 3rem;
+    }
+    .now-card {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 4px; padding: 1.7rem;
+    }
+    .now-card h3 { font-size: 0.95rem; margin-bottom: 1rem; }
+    .now-card ul { list-style: none; }
+    .now-card li {
+      font-size: 0.9rem; color: var(--muted);
+      padding: 0.45rem 0; border-bottom: 1px solid var(--rule);
+      line-height: 1.5;
+    }
+    .now-card li:last-child { border-bottom: none; padding-bottom: 0; }
+    .now-card li strong { color: var(--ink); font-weight: 500; display: block; font-size: 0.85rem; }
+    .progress-bar {
+      height: 3px; background: var(--rule); border-radius: 2px;
+      margin-top: 0.5rem; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--teal); border-radius: 2px;
+      transition: width 1s ease;
+    }
+    .now-updated {
+      font-size: 0.78rem; color: var(--faint);
+      font-style: italic; margin-top: 2rem;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 3.5rem; align-items: start;
+    }
+    .avatar-block { text-align: center; }
+    .avatar-placeholder {
+      width: 160px; height: 160px; border-radius: 50%;
+      background: var(--surface); border: 2px solid var(--rule);
+      margin: 0 auto 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 2.5rem;
+      font-weight: 700; color: var(--faint);
+    }
+    .link-list { list-style: none; margin-top: 2rem; }
+    .link-list li { margin-bottom: 0.6rem; }
+    .link-list a {
+      font-size: 0.88rem; font-weight: 500;
+      color: var(--teal); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+    .link-list a:hover { text-decoration: underline; }
+    .link-list .link-arrow { font-size: 0.75rem; }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.97rem; }
+    .about-text h3 { margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1rem; font-family: var(--sans); font-weight: 600; letter-spacing: 0.01em; }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .skill-tag {
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.25rem 0.65rem; border-radius: 2px;
+      background: var(--surface); border: 1px solid var(--rule);
+      color: var(--muted);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.2rem 2rem;
+      position: relative; z-index: 1;
+    }
+    footer .inner {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    footer p { font-size: 0.8rem; color: var(--faint); }
+    footer a { color: var(--faint); text-decoration: none; }
+    footer a:hover { color: var(--ink); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .f1 { animation: fadeUp 0.55s ease both; }
+    .f2 { animation: fadeUp 0.55s 0.1s ease both; }
+    .f3 { animation: fadeUp 0.55s 0.2s ease both; }
+    .f4 { animation: fadeUp 0.55s 0.3s ease both; }
+    .f5 { animation: fadeUp 0.55s 0.4s ease both; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .hero-layout { grid-template-columns: 1fr; }
+      .hero-deco { display: none; }
+      .now-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      nav ul { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="inner">
+    <span class="brand" onclick="showPage('home')">Omolola Omolambe</span>
+    <ul>
+      <li><button class="active" id="nav-home" onclick="showPage('home')">Home</button></li>
+      <li><button id="nav-writing" onclick="showPage('writing')">Writing</button></li>
+      <li><button id="nav-now" onclick="showPage('now')">Now</button></li>
+      <li><button id="nav-about" onclick="showPage('about')">About</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <section id="hero-section">
+    <div class="inner">
+      <div class="hero-layout">
+        <div class="hero-left">
+          <span class="eyebrow f1">Senior Software Engineer · Checkout.com</span>
+          <h1 class="f2">Building systems.<br><em>Sharing the journey.</em></h1>
+          <p class="lead f3">
+            I'm Omolola — a software engineer working on payments infrastructure. 
+            This is where I write about what I'm learning, building, and thinking about.
+          </p>
+          <div class="btn-group f4">
+            <button class="btn btn-primary" onclick="showPage('writing')">Read my writing</button>
+            <button class="btn btn-outline" onclick="showPage('about')">About me</button>
+          </div>
+          <span class="location-tag f5">Based in London, UK</span>
+        </div>
+        <div class="hero-deco f3">
+          <div class="hero-ring"></div>
+          <div class="hero-ring"></div>
+          <div class="hero-initials">OO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="inner">
+      <span class="eyebrow">What I work on</span>
+      <h2>Areas of focus</h2>
+      <p class="section-intro">My work sits at the intersection of payments, distributed systems, and engineering craft.</p>
+      <div class="card-grid">
+        <div class="card">
+          <span class="card-label">Engineering</span>
+          <h3>Payments Infrastructure</h3>
+          <p>Building the systems that move money reliably — APIs, settlement flows, and fault-tolerant architecture at scale.</p>
+        </div>
+        <div class="card">
+          <span class="card-label">Learning</span>
+          <h3>Distributed Systems</h3>
+          <p>Exploring consistency, fault-tolerance, and how large-scale systems stay reliable under pressure.</p>
+        </div>
+        <div class="card">
+          <span class="card-label">Craft</span>
+          <h3>Clean, Readable Code</h3>
+          <p>Code that's easy to reason about, test, and maintain — not just code that works today.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="inner">
+      <span class="eyebrow">Latest writing</span>
+      <h2>From the blog</h2>
+      <ul class="post-list">
+        <li class="post-item" onclick="openPost('post1')">
+          <span class="post-title">What I learned migrating a service to event-driven architecture</span>
+          <span class="post-meta">
+            <span class="tag engineering">Engineering</span>
+            <span class="post-date">Mar 2026</span>
+          </span>
+        </li>
+        <li class="post-item" onclick="openPost('post2')">
+          <span class="post-title">Understanding idempotency in payment APIs</span>
+          <span class="post-meta">
+            <span class="tag learning">Payments</span>
+            <span class="post-date">Feb 2026</span>
+          </span>
+        </li>
+        <li class="post-item" onclick="openPost('post3')">
+          <span class="post-title">How I structure my technical learning as a senior engineer</span>
+          <span class="post-meta">
+            <span class="tag career">Career</span>
+            <span class="post-date">Jan 2026</span>
+          </span>
+        </li>
+      </ul>
+      <br>
+      <button class="btn btn-outline" onclick="showPage('writing')">All posts →</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: WRITING
+══════════════════════════════════════════ -->
+<div id="page-writing" class="page">
+
+  <!-- Blog list view -->
+  <div id="blog-list">
+    <section style="padding-bottom: 1rem;">
+      <div class="inner">
+        <span class="eyebrow">Writing</span>
+        <h2>All posts</h2>
+        <p class="section-intro">Notes on engineering, payments, learning, and career.</p>
+        <ul class="post-list">
+          <li class="post-item" onclick="openPost('post1')">
+            <span class="post-title">What I learned migrating a service to event-driven architecture</span>
+            <span class="post-meta"><span class="tag engineering">Engineering</span><span class="post-date">Mar 2026</span></span>
+          </li>
+          <li class="post-item" onclick="openPost('post2')">
+            <span class="post-title">Understanding idempotency in payment APIs</span>
+            <span class="post-meta"><span class="tag learning">Payments</span><span class="post-date">Feb 2026</span></span>
+          </li>
+          <li class="post-item" onclick="openPost('post3')">
+            <span class="post-title">How I structure my technical learning as a senior engineer</span>
+            <span class="post-meta"><span class="tag career">Career</span><span class="post-date">Jan 2026</span></span>
+          </li>
+          <li class="post-item" onclick="openPost('post4')">
+            <span class="post-title">Reading notes: Designing Data-Intensive Applications</span>
+            <span class="post-meta"><span class="tag books">Books</span><span class="post-date">Dec 2025</span></span>
+          </li>
+          <li class="post-item" onclick="openPost('post5')">
+            <span class="post-title">Lessons from my first year as a senior engineer</span>
+            <span class="post-meta"><span class="tag career">Career</span><span class="post-date">Nov 2025</span></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- Post reader -->
+  <div id="post-reader">
+    <div class="post-back" onclick="closePost()">← Back to writing</div>
+    <div class="post-content">
+      <div class="post-header" id="post-header"></div>
+      <div class="post-body" id="post-body"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: NOW
+══════════════════════════════════════════ -->
+<div id="page-now" class="page">
+  <section>
+    <div class="inner">
+      <span class="eyebrow">Now</span>
+      <h2>What I'm up to</h2>
+      <p class="section-intro">A snapshot of what I'm working on, learning, and thinking about right now. Updated regularly.</p>
+
+      <div class="now-grid">
+        <div class="now-card">
+          <h3>📚 Currently reading</h3>
+          <ul>
+            <li>
+              <strong>Fundamentals of Software Architecture</strong>
+              Mark Richards & Neal Ford
+              <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
+            </li>
+            <li>
+              <strong>Staff Engineer</strong>
+              Will Larson
+              <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="now-card">
+          <h3>🛠 Building / learning</h3>
+          <ul>
+            <li>Event-driven architecture patterns at work</li>
+            <li>Going deeper on distributed consensus (Raft)</li>
+            <li>Writing more consistently — at least once a month</li>
+          </ul>
+        </div>
+
+        <div class="now-card">
+          <h3>🌍 Life</h3>
+          <ul>
+            <li>Settling into London life</li>
+            <li>Exploring SE London neighbourhoods</li>
+            <li>Trying to cook more at home</li>
+          </ul>
+        </div>
+
+        <div class="now-card">
+          <h3>💭 Thinking about</h3>
+          <ul>
+            <li>What does senior-to-staff look like for me?</li>
+            <li>The tradeoffs between consistency and availability</li>
+            <li>How to share technical learnings without overcomplicating them</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="now-updated">Last updated: March 2026 · Inspired by <a href="https://nownownow.com" target="_blank" style="color: var(--teal)">nownownow.com</a></p>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: ABOUT
+══════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <section>
+    <div class="inner">
+      <div class="about-grid">
+        <div class="avatar-block">
+          <div class="avatar-placeholder">OO</div>
+          <ul class="link-list">
+            <li><a href="https://github.com/" target="_blank">GitHub <span class="link-arrow">↗</span></a></li>
+            <li><a href="https://linkedin.com/in/" target="_blank">LinkedIn <span class="link-arrow">↗</span></a></li>
+            <li><a href="mailto:hello@omolola.dev">Email me <span class="link-arrow">↗</span></a></li>
+          </ul>
+        </div>
+        <div class="about-text">
+          <span class="eyebrow">About</span>
+          <h2>Hello, I'm Omolola.</h2>
+          <p>
+            I'm a Senior Software Engineer at Checkout.com, working on the infrastructure that powers payments. 
+            I care deeply about building systems that are reliable, observable, and maintainable — and about 
+            writing code that my future self (and teammates) will actually be grateful for.
+          </p>
+          <p>
+            I'm originally from Nigeria and recently moved to London. I find myself endlessly curious about 
+            how large-scale systems work, and I try to document what I learn so it's useful for others too.
+          </p>
+          <p>
+            This site is a place to think out loud — about engineering, career growth, books, and whatever 
+            else I'm working through.
+          </p>
+
+          <h3>Skills & technologies</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Distributed Systems</span>
+            <span class="skill-tag">Payments</span>
+            <span class="skill-tag">Event-driven Architecture</span>
+            <span class="skill-tag">APIs</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Kotlin</span>
+            <span class="skill-tag">Go</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">AWS</span>
+          </div>
+
+          <h3 style="margin-top: 2rem;">Get in touch</h3>
+          <p>I'm always happy to connect with other engineers, especially those working in fintech or distributed systems. Send me an email or find me on LinkedIn.</p>
+          <a href="mailto:hello@omolola.dev" class="btn btn-primary" style="margin-top: 0.5rem; display: inline-block;">Say hello →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="inner">
+    <p>© 2026 Omolola Omolambe · London, UK</p>
+    <p>
+      <a href="#" onclick="showPage('writing')">Writing</a> ·
+      <a href="#" onclick="showPage('now')">Now</a> ·
+      <a href="#" onclick="showPage('about')">About</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ── PAGE ROUTING ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    const btn = document.getElementById('nav-' + name);
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (name === 'writing') {
+      document.getElementById('blog-list').style.display = 'block';
+      document.getElementById('post-reader').classList.remove('active');
+    }
+  }
+
+  // ── BLOG POSTS DATA ──
+  const posts = {
+    post1: {
+      title: 'What I learned migrating a service to event-driven architecture',
+      date: 'March 2026', tag: 'Engineering',
+      body: `
+        <p>Earlier this year, our team undertook a significant migration: moving a tightly coupled, synchronous service to an event-driven model. Here's what I took away from the experience.</p>
+        <h2>Why we made the switch</h2>
+        <p>The service in question was a critical part of our payment processing pipeline. As traffic grew, the synchronous request-response model became a bottleneck. Downstream services were timing out under load, and the blast radius of any single failure was too large.</p>
+        <p>We decided to move to an event-driven approach using a message broker to decouple producers and consumers, allowing each to scale independently.</p>
+        <h2>What went well</h2>
+        <p>The decoupling was immediate and obvious. Once producers stopped waiting for consumer responses, our p99 latencies dropped significantly. The system became dramatically more resilient — a slow consumer no longer blocked the entire flow.</p>
+        <h2>What was harder than expected</h2>
+        <p>Observability got harder before it got better. In a synchronous world, tracing a request is straightforward. With events, you need distributed tracing from day one — we learned this the hard way. We also underestimated the complexity around <code>exactly-once</code> semantics, which led to some interesting conversations about idempotency.</p>
+        <h2>Key takeaways</h2>
+        <ul>
+          <li>Design for idempotency from the start — consumers will process messages more than once</li>
+          <li>Invest in observability before you go live, not after</li>
+          <li>Event schemas are a contract — treat them like a public API</li>
+          <li>Dead letter queues are not optional</li>
+        </ul>
+        <p>Overall, the migration was worth it. But it's not a silver bullet — it trades some forms of complexity for others. The key is knowing which tradeoffs you're making.</p>
+      `
+    },
+    post2: {
+      title: 'Understanding idempotency in payment APIs',
+      date: 'February 2026', tag: 'Payments',
+      body: `
+        <p>Idempotency is one of those concepts that sounds simple until you try to implement it correctly in a payments context. Here's my attempt to explain it clearly.</p>
+        <h2>What is idempotency?</h2>
+        <p>An operation is idempotent if performing it multiple times produces the same result as performing it once. In payments, this matters enormously — you never want to charge a customer twice because of a network retry.</p>
+        <h2>The idempotency key pattern</h2>
+        <p>The standard approach is the idempotency key: a unique identifier the client sends with every request. The server stores the result of the first successful execution and returns the same result for any subsequent request with the same key.</p>
+        <p>The key (pun intended) details are in the storage and lookup. You need to handle concurrent requests with the same key carefully — this is where distributed locking or careful database design comes in.</p>
+        <h2>Edge cases that catch you out</h2>
+        <ul>
+          <li>What if the first request is still in-flight when the retry arrives?</li>
+          <li>How long do you store idempotency keys? (We use 24 hours)</li>
+          <li>What scope does the key apply to — per user? Per merchant?</li>
+        </ul>
+        <p>Getting these details right is the difference between a system clients can trust and one that causes support headaches at 3am.</p>
+      `
+    },
+    post3: {
+      title: 'How I structure my technical learning as a senior engineer',
+      date: 'January 2026', tag: 'Career',
+      body: `
+        <p>At a senior level, the expectation shifts. You're no longer just learning what's put in front of you — you need to direct your own growth deliberately. Here's the system I've built for myself.</p>
+        <h2>The three layers</h2>
+        <p>I think of my learning in three concentric circles: deep technical fundamentals, current work challenges, and breadth exploration.</p>
+        <p><strong>Fundamentals</strong> are the things that don't change quickly — distributed systems concepts, data structures, systems design, networking. I dedicate time here even when it feels abstract, because these pay off over years.</p>
+        <p><strong>Work challenges</strong> are the best forcing function. When I hit something I don't understand at work, I go deep on it. The motivation is built in.</p>
+        <p><strong>Breadth exploration</strong> is reading, podcasts, and conversations with engineers in other domains. This is where unexpected connections happen.</p>
+        <h2>Writing as learning</h2>
+        <p>Writing this blog is part of my learning system, not separate from it. Explaining something forces clarity. If I can't explain it simply, I don't understand it well enough yet.</p>
+        <p>Even posts that only 5 people read are worth writing — the primary beneficiary is always future me.</p>
+      `
+    },
+    post4: {
+      title: 'Reading notes: Designing Data-Intensive Applications',
+      date: 'December 2025', tag: 'Books',
+      body: `
+        <p>DDIA by Martin Kleppmann is one of those books that fundamentally changes how you think about systems. These are my key notes from a slow, careful read.</p>
+        <h2>The core insight</h2>
+        <p>Most software engineering problems in modern systems are data problems: how do we store it, retrieve it, transform it, and move it reliably? The book is structured around this insight, working through the fundamental tradeoffs rather than prescribing solutions.</p>
+        <h2>What I'll carry forward</h2>
+        <ul>
+          <li>The distinction between <code>replication lag</code> and <code>eventual consistency</code> is subtle but important</li>
+          <li>Transactions don't solve all concurrency problems — understand which isolation level you're actually getting</li>
+          <li>Batch processing and stream processing are not opposites — they're complementary tools</li>
+          <li>Every database makes tradeoffs. Know yours.</li>
+        </ul>
+        <p>Chapter 5 on replication and Chapter 7 on transactions are worth reading twice. I'll be returning to this book.</p>
+      `
+    },
+    post5: {
+      title: 'Lessons from my first year as a senior engineer',
+      date: 'November 2025', tag: 'Career',
+      body: `
+        <p>A year in, here's what I actually learned — not the stuff they tell you to expect, but what actually surprised me.</p>
+        <h2>The job changes more than the title does</h2>
+        <p>I expected to write more complex code. What I didn't expect was how much more time I'd spend on design documents, code reviews, and conversations about tradeoffs. The technical thinking intensified, but the mode shifted.</p>
+        <h2>Ambiguity is the job</h2>
+        <p>At junior and mid levels, someone has usually broken down the problem for you. Senior means getting handed the fuzzy, underspecified thing and being expected to structure it. That muscle took time to develop.</p>
+        <h2>Your instincts are an asset — and a risk</h2>
+        <p>Experience builds intuition, and intuition is valuable. But it can also lead you to pattern-match too quickly. The best senior engineers I've worked with hold their instincts lightly and still ask basic questions.</p>
+        <h2>Write more than you think you need to</h2>
+        <p>Design docs, decision records, post-mortems. The act of writing clarifies thinking and creates shared understanding across a team. I wish I'd started doing this earlier in my career.</p>
+      `
+    }
+  };
+
+  function openPost(id) {
+    const post = posts[id];
+    if (!post) return;
+    document.getElementById('blog-list').style.display = 'none';
+    const reader = document.getElementById('post-reader');
+    reader.classList.add('active');
+    document.getElementById('post-header').innerHTML = `
+      <span class="eyebrow">${post.tag}</span>
+      <h1 style="font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 0.5rem;">${post.title}</h1>
+      <p style="color: var(--faint); font-size: 0.85rem;">${post.date}</p>
+    `;
+    document.getElementById('post-body').innerHTML = post.body;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closePost() {
+    document.getElementById('blog-list').style.display = 'block';
+    document.getElementById('post-reader').classList.remove('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
