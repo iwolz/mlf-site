@@ -290,18 +290,64 @@
     .empty-state p { font-size: 0.95rem; margin-top: 0.5rem; }
 
     /* ── NOW PAGE ── */
-    .now-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3rem; }
-    .now-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 1.7rem; }
-    .now-card h3 { font-size: 0.95rem; margin-bottom: 1rem; }
-    .now-card ul { list-style: none; }
+    .now-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.25rem; margin-bottom: 3rem;
+    }
+    .now-card {
+      background: var(--surface); border: 1px solid var(--rule);
+      border-radius: 6px; padding: 1.8rem;
+      display: flex; flex-direction: column; gap: 1.2rem;
+    }
+    .now-card-head {
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .now-card-head svg { flex-shrink: 0; }
+    .now-card-head span {
+      font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    }
+
+    /* Card accent colours per type */
+    .now-reading  { border-left: 3px solid var(--teal); }
+    .now-building { border-left: 3px solid var(--accent); }
+    .now-life     { border-left: 3px solid #5ab876; }
+    .now-thinking { border-left: 3px solid var(--gold); }
+
+    /* Reading list */
+    .book-item { padding: 0.85rem 0; border-bottom: 1px solid var(--rule); }
+    .book-item:first-child { padding-top: 0; }
+    .book-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .book-title { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+    .book-author { font-size: 0.8rem; color: var(--faint); margin: 0.15rem 0 0.65rem; }
+    .progress-track {
+      height: 6px; background: var(--rule);
+      border-radius: 3px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; background: var(--teal); border-radius: 3px; }
+    .progress-label {
+      font-size: 0.72rem; color: var(--faint);
+      margin-top: 0.3rem; display: block;
+    }
+
+    /* Bullet lists inside other now-cards */
+    .now-card ul { list-style: none; display: flex; flex-direction: column; }
     .now-card li {
       font-size: 0.9rem; color: var(--muted);
-      padding: 0.45rem 0; border-bottom: 1px solid var(--rule); line-height: 1.5;
+      padding: 0.6rem 0 0.6rem 1.2rem;
+      border-bottom: 1px solid var(--rule);
+      line-height: 1.55; position: relative;
     }
     .now-card li:last-child { border-bottom: none; padding-bottom: 0; }
-    .now-card li strong { color: var(--ink); font-weight: 500; display: block; font-size: 0.85rem; }
-    .progress-bar { height: 3px; background: var(--rule); border-radius: 2px; margin-top: 0.5rem; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--teal); border-radius: 2px; }
+    .now-card li::before {
+      content: ''; position: absolute;
+      left: 0; top: 50%; transform: translateY(-50%);
+      width: 5px; height: 5px; border-radius: 50%;
+    }
+    .now-building li::before { background: var(--accent); }
+    .now-life     li::before { background: #5ab876; }
+    .now-thinking li::before { background: var(--gold); }
+
     .now-updated { font-size: 0.78rem; color: var(--faint); font-style: italic; margin-top: 2rem; }
 
     /* ── ABOUT ── */
@@ -538,46 +584,78 @@
       <span class="eyebrow">Now</span>
       <h2>What I'm up to</h2>
       <p class="section-intro">A snapshot of what I'm working on, learning, and thinking about right now.</p>
+
       <div class="now-grid">
-        <div class="now-card">
-            <h3>Currently reading</h3>
-            <ul>
-              <li>
-                <strong>AI Engineering</strong>
-                Building Applications with Foundation Models — Chip Huyen
-                <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
-              </li>
-              <li>
-                <strong>Onyx Storm</strong>
-                Rebecca Yarros
-                <div class="progress-bar"><div class="progress-fill" style="width:2%"></div></div>
-              </li>
-            </ul>
+
+        <!-- Currently reading -->
+        <div class="now-card now-reading">
+          <div class="now-card-head">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span>Currently reading</span>
           </div>
-        <div class="now-card">
-          <h3>🛠 Building / learning</h3>
+          <div>
+            <div class="book-item">
+              <p class="book-title">AI Engineering</p>
+              <p class="book-author">Chip Huyen — Building Applications with Foundation Models</p>
+              <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
+              <span class="progress-label">60% through</span>
+            </div>
+            <div class="book-item">
+              <p class="book-title">Onyx Storm</p>
+              <p class="book-author">Rebecca Yarros</p>
+              <div class="progress-track"><div class="progress-fill" style="width:2%"></div></div>
+              <span class="progress-label">Just started</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Building & learning -->
+        <div class="now-card now-building">
+          <div class="now-card-head">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+            <span>Building &amp; learning</span>
+          </div>
           <ul>
             <li>Event-driven architecture patterns at work</li>
             <li>Going deeper on distributed consensus (Raft)</li>
             <li>Writing more consistently — at least once a month</li>
           </ul>
         </div>
-        <div class="now-card">
-          <h3>🌍 Life</h3>
+
+        <!-- Life -->
+        <div class="now-card now-life">
+          <div class="now-card-head">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5ab876" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>Life</span>
+          </div>
           <ul>
             <li>Settling into London life</li>
             <li>Exploring SE London neighbourhoods</li>
             <li>Trying to cook more at home</li>
           </ul>
         </div>
-        <div class="now-card">
-          <h3>💭 Thinking about</h3>
+
+        <!-- Thinking about -->
+        <div class="now-card now-thinking">
+          <div class="now-card-head">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Thinking about</span>
+          </div>
           <ul>
             <li>What does senior-to-staff look like for me?</li>
             <li>The tradeoffs between consistency and availability</li>
             <li>How to share technical learnings without overcomplicating them</li>
           </ul>
         </div>
+
       </div>
       <p class="now-updated">Last updated: March 2026 · Inspired by <a href="https://nownownow.com" target="_blank" style="color: var(--teal)">nownownow.com</a></p>
     </div>
