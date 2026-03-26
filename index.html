@@ -994,29 +994,19 @@
   }
 
   async function fetchPostList() {
-    const cacheKey = 'posts-list';
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) return JSON.parse(cached);
     try {
       const res = await fetch('https://api.github.com/repos/iwolz/mlf-site/contents/posts');
       if (!res.ok) throw new Error('Could not fetch posts');
       const files = await res.json();
-      const mdFiles = files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
-      sessionStorage.setItem(cacheKey, JSON.stringify(mdFiles));
-      return mdFiles;
+      return files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
     } catch (e) {
       return [];
     }
   }
 
   async function fetchPostContent(downloadUrl) {
-    const cacheKey = 'post-' + downloadUrl;
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) return cached;
     const res = await fetch(downloadUrl);
-    const text = await res.text();
-    sessionStorage.setItem(cacheKey, text);
-    return text;
+    return res.text();
   }
 
   async function loadPosts() {
