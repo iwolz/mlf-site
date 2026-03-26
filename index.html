@@ -291,6 +291,7 @@
     .post-body h2 { font-size: 1.4rem; margin: 2rem 0 0.8rem; }
     .post-body p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.85; text-align: justify; }
     .post-body img { display: block; margin: 2rem auto; max-width: 100%; }
+    .post-body img + p em { display: block; text-align: center; font-size: 0.82rem; color: var(--faint); margin-top: -1rem; margin-bottom: 1.5rem; font-style: italic; }
     .post-body ul, .post-body ol { color: var(--muted); padding-left: 1.5rem; margin-bottom: 1.2rem; }
     .post-body li { margin-bottom: 0.4rem; line-height: 1.75; }
     .post-body code {
@@ -1039,6 +1040,17 @@
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
     renderPostList('home-post-list', allPosts.slice(0, 3));
     renderPostList('writing-post-list', allPosts);
+
+    // If page loaded with a post hash, open it directly
+    const hash = location.hash.replace('#', '');
+    if (hash.startsWith('post/')) {
+      const slug = hash.slice(5);
+      const idx = allPosts.findIndex(p => p.slug === slug);
+      if (idx !== -1) {
+        showPage('writing');
+        openPost(idx);
+      }
+    }
   }
 
   function renderPostList(listId, posts) {
@@ -1083,6 +1095,7 @@
   function openPost(index) {
     const post = allPosts[index];
     if (!post) return;
+    location.hash = 'post/' + post.slug;
 
     // Inject Article structured data
     let ld = document.getElementById('article-ld');
@@ -1129,6 +1142,7 @@
   }
 
   function closePost() {
+    location.hash = 'writing';
     const ld = document.getElementById('article-ld');
     if (ld) ld.remove();
     const update = () => {

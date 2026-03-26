@@ -4,8 +4,6 @@ date: 2026-03-28
 tag: Engineering
 ---
 
-
-# Risk by Design: Why Your CRA and NRD Systems Deserve Real Architecture
  
 Most fintech platforms have a Customer Risk Assessment system. Very few have a CRA *architecture*.
  
@@ -40,7 +38,8 @@ The second failure mode is the inverse. When compliance teams can't easily under
 The result is a system that neither engineers nor compliance teams feel ownership over. Engineers see it as a black box of business rules they didn't choose. Compliance sees it as a black box of technical implementation they can't inspect. Both are right.
  
 ![Two failure modes diagram](../images/cra-failure-modes.svg)
- 
+*Figure 1: The two failure modes that plague default CRA implementations — and how both converge on a system nobody owns.*
+
 ---
  
 ## The Architectural North Star: Config-Driven, Auditable, Compliance-Authorable
@@ -94,7 +93,8 @@ The entity snapshot pattern — what data you materialise, how frequently, and a
 *Deep dive: "One Score, Two Paths: Designing for Real-Time and Batch CRA Execution"*
  
 ![CRA & NRD four-layer architecture](../images/cra-nrd-architecture.svg)
- 
+*Figure 2: The four-layer Risk by Design architecture — NRD determination, config-driven scoring engine, dual execution paths, and auditable output — with the config store feeding compliance authorship throughout.*
+
 ---
  
 ## Who This Series Is For
