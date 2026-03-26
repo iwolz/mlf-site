@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background: dark navy rounded square -->
+  <rect width="100" height="100" rx="18" fill="#0f1520"/>
+
+  <!-- Subtle inner border for definition at small sizes -->
+  <rect x="1.5" y="1.5" width="97" height="97" rx="17" fill="none" stroke="#1e3050" stroke-width="1.5"/>
+
+  <!-- L — white, serif weight -->
+  <text
+    x="22"
+    y="68"
+    font-family="Georgia, 'Palatino Linotype', serif"
+    font-size="52"
+    font-weight="700"
+    fill="#ffffff"
+  >L</text>
+
+  <!-- O — accent blue, creates the two-tone monogram effect -->
+  <text
+    x="56"
+    y="68"
+    font-family="Georgia, 'Palatino Linotype', serif"
+    font-size="52"
+    font-weight="700"
+    fill="#5b9ecf"
+  >O</text>
+
+  <!-- Thin accent line beneath — ties it together -->
+  <line x1="14" y1="78" x2="86" y2="78" stroke="#5b9ecf" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+</svg>
