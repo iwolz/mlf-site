@@ -39,7 +39,7 @@ The second failure mode is the inverse. When compliance teams can't easily under
  
 The result is a system that neither engineers nor compliance teams feel ownership over. Engineers see it as a black box of business rules they didn't choose. Compliance sees it as a black box of technical implementation they can't inspect. Both are right.
  
-`[DIAGRAM: Two failure modes — hardcoded rules creating engineering dependency (left) vs opaque systems creating compliance bottleneck (right), converging on "nobody owns the system"]`
+![Two failure modes diagram](../images/cra-failure-modes.svg)
  
 ---
  
@@ -93,7 +93,7 @@ The entity snapshot pattern — what data you materialise, how frequently, and a
  
 *Deep dive: "One Score, Two Paths: Designing for Real-Time and Batch CRA Execution"*
  
-`[DIAGRAM: Four-layer architecture overview — NRD determination layer → Config-driven scoring engine → Dual execution paths (real-time + batch) → Auditable output layer, with config store and compliance authorship interface alongside]`
+![CRA & NRD four-layer architecture](../images/cra-nrd-architecture.svg)
  
 ---
  

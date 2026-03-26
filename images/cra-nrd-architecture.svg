@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="870" viewBox="0 0 900 870" font-family="system-ui,sans-serif" fill="#1e293b">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- ══════════ INPUT ══════════ -->
+  <rect x="30" y="20" width="840" height="84" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="46" y="37" font-size="11" font-weight="600" fill="#64748b">Customer Data &amp; Signals</text>
+
+  <rect x="50" y="42" width="170" height="44" rx="6" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="135" y="69" text-anchor="middle" font-size="12">Customer Attributes</text>
+
+  <rect x="260" y="42" width="170" height="44" rx="6" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="345" y="69" text-anchor="middle" font-size="12">Transaction Signals</text>
+
+  <rect x="470" y="42" width="170" height="44" rx="6" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="555" y="69" text-anchor="middle" font-size="12">Geographic Signals</text>
+
+  <rect x="680" y="42" width="170" height="44" rx="6" fill="white" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="765" y="69" text-anchor="middle" font-size="12">Declared Information</text>
+
+  <!-- INPUT → NRD -->
+  <line x1="320" y1="104" x2="320" y2="148" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ══════════ NRD ══════════ -->
+  <rect x="30" y="150" width="580" height="220" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="46" y="167" font-size="11" font-weight="700" fill="#1e40af">Layer 1: NRD Determination</text>
+
+  <!-- SA -->
+  <rect x="50" y="176" width="140" height="44" rx="6" fill="white" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="194" text-anchor="middle" font-size="12" font-weight="600">Signal</text>
+  <text x="120" y="210" text-anchor="middle" font-size="11" fill="#475569">Aggregation</text>
+
+  <!-- SA → DET -->
+  <line x1="190" y1="198" x2="242" y2="198" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- DET -->
+  <rect x="244" y="176" width="150" height="44" rx="6" fill="white" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="319" y="194" text-anchor="middle" font-size="12" font-weight="600">Determination</text>
+  <text x="319" y="210" text-anchor="middle" font-size="11" fill="#475569">Engine</text>
+
+  <!-- DET → EV -->
+  <line x1="394" y1="198" x2="446" y2="198" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- EV -->
+  <rect x="448" y="176" width="140" height="44" rx="6" fill="white" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="518" y="194" text-anchor="middle" font-size="12" font-weight="600">Evidence</text>
+  <text x="518" y="210" text-anchor="middle" font-size="11" fill="#475569">Bundle</text>
+
+  <!-- DET → GW -->
+  <line x1="319" y1="220" x2="319" y2="255" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- GW diamond: center=(319,300), hw=88, hh=42 -->
+  <polygon points="319,258 407,300 319,342 231,300" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="319" y="291" text-anchor="middle" font-size="11" font-weight="700">Gateway Decision</text>
+  <text x="319" y="304" text-anchor="middle" font-size="10" fill="#1e40af">Resident / Non-Resident</text>
+  <text x="319" y="317" text-anchor="middle" font-size="10" fill="#1e40af">/ Indeterminate</text>
+
+  <!-- ══════════ CONFIG ══════════ -->
+  <rect x="630" y="150" width="240" height="220" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="646" y="167" font-size="11" font-weight="700" fill="#92400e">Config Store</text>
+
+  <rect x="650" y="174" width="200" height="38" rx="6" fill="white" stroke="#d97706" stroke-width="1.5"/>
+  <text x="750" y="198" text-anchor="middle" font-size="11">Compliance Authorship UI</text>
+
+  <line x1="750" y1="212" x2="750" y2="222" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="650" y="224" width="200" height="38" rx="6" fill="white" stroke="#d97706" stroke-width="1.5"/>
+  <text x="750" y="248" text-anchor="middle" font-size="11">Four-Eyes Approval</text>
+
+  <line x1="750" y1="262" x2="750" y2="272" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="650" y="274" width="200" height="38" rx="6" fill="white" stroke="#d97706" stroke-width="1.5"/>
+  <text x="750" y="298" text-anchor="middle" font-size="11">CI Validation</text>
+
+  <line x1="750" y1="312" x2="750" y2="322" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="650" y="324" width="200" height="38" rx="6" fill="white" stroke="#d97706" stroke-width="1.5"/>
+  <text x="750" y="348" text-anchor="middle" font-size="11">Versioned Config Sets</text>
+
+  <!-- GW → ENGINE -->
+  <line x1="319" y1="342" x2="319" y2="418" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="328" y="366" font-size="10" fill="#94a3b8">Routes to applicable</text>
+  <text x="328" y="379" font-size="10" fill="#94a3b8">risk framework</text>
+
+  <!-- VC → ENGINE -->
+  <polyline points="750,362 750,400 530,400 530,418" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ══════════ ENGINE ══════════ -->
+  <rect x="30" y="420" width="840" height="120" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+  <text x="46" y="437" font-size="11" font-weight="700" fill="#065f46">Layer 2: Config-Driven Scoring Engine</text>
+
+  <!-- HT -->
+  <rect x="55" y="448" width="230" height="44" rx="6" fill="white" stroke="#059669" stroke-width="1.5"/>
+  <text x="170" y="466" text-anchor="middle" font-size="12" font-weight="600">Handler Types</text>
+  <text x="170" y="482" text-anchor="middle" font-size="11" fill="#475569">Range / Category / Weighted</text>
+
+  <!-- HT → IP -->
+  <line x1="285" y1="470" x2="325" y2="470" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- IP -->
+  <rect x="327" y="448" width="180" height="44" rx="6" fill="white" stroke="#059669" stroke-width="1.5"/>
+  <text x="417" y="474" text-anchor="middle" font-size="12" font-weight="600">Interpreter Pattern</text>
+
+  <!-- CE → IP -->
+  <line x1="547" y1="470" x2="509" y2="470" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- CE -->
+  <rect x="549" y="448" width="230" height="44" rx="6" fill="white" stroke="#059669" stroke-width="1.5"/>
+  <text x="664" y="466" text-anchor="middle" font-size="12" font-weight="600">Config Entries</text>
+  <text x="664" y="482" text-anchor="middle" font-size="11" fill="#475569">Thresholds / Weights / Rules</text>
+
+  <!-- ENGINE → EXEC -->
+  <line x1="450" y1="540" x2="450" y2="575" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ══════════ EXEC ══════════ -->
+  <rect x="30" y="577" width="840" height="120" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="46" y="594" font-size="11" font-weight="700" fill="#4c1d95">Layer 3: Dual Execution Paths</text>
+
+  <!-- RT -->
+  <rect x="55" y="604" width="230" height="44" rx="6" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="170" y="622" text-anchor="middle" font-size="12" font-weight="600">Real-Time Path</text>
+  <text x="170" y="638" text-anchor="middle" font-size="11" fill="#475569">API-driven, onboarding</text>
+
+  <!-- EQ -->
+  <rect x="335" y="604" width="180" height="44" rx="6" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="425" y="622" text-anchor="middle" font-size="12" font-weight="600">Equivalence</text>
+  <text x="425" y="638" text-anchor="middle" font-size="11" fill="#475569">Testing</text>
+
+  <!-- BT -->
+  <rect x="567" y="604" width="230" height="44" rx="6" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="682" y="622" text-anchor="middle" font-size="12" font-weight="600">Batch Path</text>
+  <text x="682" y="638" text-anchor="middle" font-size="11" fill="#475569">Pipeline, reassessment</text>
+
+  <!-- RT to EQ -->
+  <line x1="285" y1="626" x2="335" y2="626" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- BT to EQ -->
+  <line x1="567" y1="626" x2="515" y2="626" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- EXEC → OUTPUT -->
+  <line x1="450" y1="697" x2="450" y2="732" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- EV → OUTPUT (dashed, threads through gaps between nodes) -->
+  <!-- x=535 threads: NRD right margin → gap(IP,CE) in ENGINE → gap(EQ,BT) in EXEC → into AT -->
+  <polyline points="518,220 535,220 535,760" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+  <!-- ══════════ OUTPUT ══════════ -->
+  <rect x="30" y="734" width="840" height="100" rx="10" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="46" y="751" font-size="11" font-weight="700" fill="#374151">Auditable Output</text>
+
+  <!-- SO -->
+  <rect x="150" y="762" width="240" height="44" rx="6" fill="white" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="270" y="789" text-anchor="middle" font-size="12">Immutable Scoring Record</text>
+
+  <!-- AT -->
+  <rect x="490" y="762" width="240" height="44" rx="6" fill="white" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="610" y="779" text-anchor="middle" font-size="12" font-weight="600">Audit Trail</text>
+  <text x="610" y="795" text-anchor="middle" font-size="11" fill="#475569">Config version + inputs + output</text>
+
+</svg>
