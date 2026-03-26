@@ -166,28 +166,64 @@
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 4rem; align-items: center;
     }
-    .hero-deco {
-      position: relative; height: 340px;
-      display: flex; align-items: center; justify-content: center;
+    .hero-terminal {
+      background: #0d1117;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      max-width: 528px;
+      margin: 0 auto;
     }
-    .hero-ring {
-      width: 260px; height: 260px; border-radius: 50%;
-      border: 1px solid var(--rule); position: absolute;
-      animation: spin 30s linear infinite;
+    .term-titlebar {
+      background: #161b22;
+      padding: 0.72rem 1.2rem;
+      display: flex; align-items: center; gap: 0.54rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .hero-ring:nth-child(2) {
-      width: 200px; height: 200px;
-      border-style: dashed; border-color: var(--surface);
-      animation-direction: reverse; animation-duration: 20s;
+    .term-dot { width: 14px; height: 14px; border-radius: 50%; }
+    .term-dot.red    { background: #ff5f57; }
+    .term-dot.yellow { background: #ffbd2e; }
+    .term-dot.green  { background: #28ca41; }
+    .term-titlebar-label {
+      margin-left: auto; font-size: 0.84rem;
+      color: rgba(255,255,255,0.3); font-family: var(--sans); letter-spacing: 0.02em;
     }
-    .hero-initials {
-      width: 120px; height: 120px; border-radius: 50%;
-      background: var(--surface); border: 1px solid var(--rule);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--serif); font-size: 2rem; font-weight: 700;
-      color: var(--muted); z-index: 2; letter-spacing: -0.02em;
+    .term-body {
+      padding: 1.2rem 1.5rem 1.5rem;
+      font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+      font-size: 0.94rem; color: #8b949e; line-height: 1.8;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .term-user, .term-host { color: #3fb950; }
+    .term-cmd {
+      color: #e6edf3; display: inline-block;
+      overflow: hidden; white-space: nowrap;
+      width: 0; vertical-align: bottom;
+      animation: termType 0.6s steps(12, end) 0.7s forwards;
+    }
+    @keyframes termType { to { width: 12ch; } }
+    .term-cursor {
+      color: #3fb950;
+      animation: termBlink 0.5s step-end 1.3s 3, termHide 0s 2.8s forwards;
+    }
+    @keyframes termBlink { 50% { opacity: 0; } }
+    @keyframes termHide  { to   { opacity: 0; } }
+    .term-output {
+      margin-top: 0.5rem; opacity: 0;
+      animation: termFadeIn 0.4s 2s ease forwards;
+    }
+    @keyframes termFadeIn { to { opacity: 1; } }
+    .term-cols { display: flex; gap: 2.4rem; }
+    .term-col div { color: #8b949e; }
+    .term-col-hdr { font-weight: 600; margin-bottom: 0.1rem; }
+    .term-next {
+      margin-top: 0.3rem; opacity: 0;
+      animation: termFadeIn 0.3s 2.4s ease forwards;
+    }
+    .term-cursor2 {
+      color: #3fb950;
+      animation: termBlink 1s step-end 2.7s infinite;
+    }
 
     .location-tag {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -429,7 +465,7 @@
 
     @media (max-width: 680px) {
       .hero-layout { grid-template-columns: 1fr; }
-      .hero-deco { display: none; }
+      .hero-terminal { display: none; }
       .now-grid { grid-template-columns: 1fr; }
       .about-grid { grid-template-columns: 1fr; }
       nav ul { gap: 1rem; }
@@ -543,10 +579,47 @@
           </div>
           <span class="location-tag f5">Based in London, UK</span>
         </div>
-        <div class="hero-deco f3">
-          <div class="hero-ring"></div>
-          <div class="hero-ring"></div>
-          <div class="hero-initials">OO</div>
+        <div class="hero-terminal f3">
+          <div class="term-titlebar">
+            <span class="term-dot red"></span>
+            <span class="term-dot yellow"></span>
+            <span class="term-dot green"></span>
+            <span class="term-titlebar-label">omolola.sh</span>
+          </div>
+          <div class="term-body">
+            <div class="term-prompt">
+              <span class="term-user">lola.lambe</span><span>@</span><span class="term-host">engineering</span><span> ~ % </span><span class="term-cmd">show --stack</span><span class="term-cursor">▌</span>
+            </div>
+            <div class="term-output">
+              <div class="term-cols">
+                <div class="term-col">
+                  <div class="term-col-hdr" style="color:#5b9ecf">architecture/</div>
+                  <div>├ microservices</div>
+                  <div>├ event-driven</div>
+                  <div>└ api design</div>
+                </div>
+                <div class="term-col">
+                  <div class="term-col-hdr" style="color:#3fb950">stack/</div>
+                  <div>├ java</div>
+                  <div>├ c#</div>
+                  <div>├ python</div>
+                  <div>└ javascript</div>
+                </div>
+                <div class="term-col">
+                  <div class="term-col-hdr" style="color:#f08844">infra/</div>
+                  <div>├ aws</div>
+                  <div>├ gcp</div>
+                  <div>├ terraform</div>
+                  <div>├ dynamoDB</div>
+                  <div>├ kubernetes</div>
+                  <div>└ postgres</div>
+                </div>
+              </div>
+            </div>
+            <div class="term-next">
+              <span class="term-user">lola.lambe</span><span>@</span><span class="term-host">engineering</span><span> ~ % </span><span class="term-cursor2">▌</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
