@@ -9,6 +9,35 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <!-- Marked.js for parsing markdown posts -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Structured data: Person + WebSite (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://omololaomolambe.com/#person",
+        "name": "Omolola Omolambe",
+        "jobTitle": "Senior Software Engineer",
+        "worksFor": { "@type": "Organization", "name": "Checkout.com" },
+        "url": "https://omololaomolambe.com",
+        "sameAs": [
+          "https://github.com/lolaomolambe",
+          "https://www.linkedin.com/in/omolola-omolambe/",
+          "https://medium.com/@lola.omolambe"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://omololaomolambe.com/#website",
+        "name": "Omolola Omolambe",
+        "url": "https://omololaomolambe.com",
+        "author": { "@id": "https://omololaomolambe.com/#person" }
+      }
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -318,6 +347,71 @@
       .about-grid { grid-template-columns: 1fr; }
       nav ul { gap: 1rem; }
     }
+
+    /* ── DARK MODE ── */
+    :root { color-scheme: light; }
+    [data-theme="dark"] { color-scheme: dark; }
+    [data-theme="dark"] {
+      --ink:     #dce8f5;
+      --muted:   #7a94b0;
+      --faint:   #4a6480;
+      --rule:    #1e2e40;
+      --bg:      #0d1520;
+      --surface: #132030;
+      --accent:  #5b9ecf;
+      --gold:    #7ab8e8;
+      --teal:    #6aa8c8;
+    }
+    [data-theme="dark"] nav {
+      background: rgba(13,21,32,0.95);
+      border-bottom-color: rgba(91,158,207,0.3);
+    }
+    [data-theme="dark"] .btn-primary { background: var(--accent); }
+    [data-theme="dark"] .btn-primary:hover { background: var(--teal); }
+    [data-theme="dark"] .tag.Engineering { background: #12261a; border-color: #1e3e28; color: #5ab876; }
+    [data-theme="dark"] .tag.Payments    { background: #111e30; border-color: #1a304e; color: #5a8ec8; }
+    [data-theme="dark"] .tag.Career      { background: #25180a; border-color: #3e2812; color: #c87838; }
+    [data-theme="dark"] .tag.Books       { background: #1a1028; border-color: #2e1e44; color: #9068c8; }
+    [data-theme="dark"] .tag.Learning    { background: #111e30; border-color: #1a304e; color: #5a8ec8; }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 0.75rem; font-family: var(--sans);
+      padding: 0.22rem 0.6rem; border-radius: 3px;
+      transition: all 0.15s; letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .theme-toggle:hover { border-color: rgba(255,255,255,0.55); color: #fff; }
+
+    /* ── READING TIME ── */
+    .read-time { font-size: 0.75rem; color: var(--faint); }
+
+    /* ── SEARCH ── */
+    .search-wrap { margin-bottom: 1.5rem; position: relative; }
+    .search-input {
+      width: 100%; padding: 0.65rem 1rem 0.65rem 2.4rem;
+      border: 1px solid var(--rule); border-radius: 3px;
+      background: var(--surface); color: var(--ink);
+      font-family: var(--sans); font-size: 0.9rem;
+      transition: border-color 0.15s;
+    }
+    .search-input:focus { outline: none; border-color: var(--accent); }
+    .search-input::placeholder { color: var(--faint); }
+    .search-icon {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      color: var(--faint); pointer-events: none; font-size: 1rem; line-height: 1;
+    }
+    .search-count { font-size: 0.8rem; color: var(--faint); margin-top: 0.4rem; min-height: 1.2em; }
+
+    /* ── VIEW TRANSITIONS ── */
+    ::view-transition-old(root) { animation: 160ms ease-out both vt-out; }
+    ::view-transition-new(root) { animation: 240ms ease-out 60ms both vt-in; }
+    @keyframes vt-out { to   { opacity: 0; transform: translateY(-6px); } }
+    @keyframes vt-in  { from { opacity: 0; transform: translateY(10px); } }
   </style>
 </head>
 <body>
@@ -331,6 +425,7 @@
       <li><button id="nav-now" onclick="showPage('now')">Now</button></li>
       <li><button id="nav-about" onclick="showPage('about')">About</button></li>
     </ul>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle colour theme">◐ Dark</button>
   </div>
 </nav>
 
@@ -404,6 +499,18 @@
         <span class="eyebrow">Writing</span>
         <h2>All posts</h2>
         <p class="section-intro">Notes on engineering, payments, learning, and career.</p>
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input
+            type="search"
+            class="search-input"
+            id="post-search"
+            placeholder="Search posts…"
+            oninput="filterPosts(this.value)"
+            aria-label="Search posts"
+          />
+        </div>
+        <div class="search-count" id="search-count" aria-live="polite"></div>
         <ul class="post-list" id="writing-post-list">
           <li class="loading">Loading posts...</li>
         </ul>
@@ -530,22 +637,48 @@
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <script>
-  // ── PAGE ROUTING ──
+  // ── THEME ──
+  function initTheme() {
+    const saved = localStorage.getItem('theme');
+    const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    applyTheme(saved || preferred, false);
+  }
+  function applyTheme(theme, save = true) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (save) localStorage.setItem('theme', theme);
+    const btn = document.getElementById('theme-btn');
+    if (btn) btn.textContent = theme === 'dark' ? '☀ Light' : '◐ Dark';
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  initTheme();
+
+  // ── PAGE ROUTING (with View Transitions) ──
   function showPage(name) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    const btn = document.getElementById('nav-' + name);
-    if (btn) btn.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (name === 'writing') {
-      document.getElementById('blog-list').style.display = 'block';
-      document.getElementById('post-reader').style.display = 'none';
+    const update = () => {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('nav ul button').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      const btn = document.getElementById('nav-' + name);
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0 });
+      if (name === 'writing') {
+        document.getElementById('blog-list').style.display = 'block';
+        document.getElementById('post-reader').style.display = 'none';
+        const search = document.getElementById('post-search');
+        if (search) { search.value = ''; filterPosts(''); }
+      }
+    };
+    if (document.startViewTransition) {
+      document.startViewTransition(update);
+    } else {
+      update();
     }
   }
 
   // ── NETLIFY IDENTITY REDIRECT ──
-  // Redirects CMS users to /admin after login
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on('init', user => {
       if (!user) {
@@ -556,10 +689,14 @@
     });
   }
 
-  // ── FETCH AND PARSE POSTS FROM /posts/ FOLDER ──
-  // Posts are markdown files saved by Netlify CMS
-  // Format: frontmatter (title, date, tag) + markdown body
+  // ── READING TIME ──
+  function readingTime(markdown) {
+    const words = markdown.replace(/[#*`\[\]()>_~\-]/g, ' ').split(/\s+/).filter(Boolean).length;
+    const mins = Math.max(1, Math.round(words / 200));
+    return mins + ' min read';
+  }
 
+  // ── POSTS ──
   let allPosts = [];
 
   function parseFrontmatter(text) {
@@ -585,12 +722,10 @@
 
   async function fetchPostList() {
     try {
-      // Fetch the GitHub API to list files in posts/ folder
       const res = await fetch('https://api.github.com/repos/iwolz/mlf-site/contents/posts');
       if (!res.ok) throw new Error('Could not fetch posts');
       const files = await res.json();
-      const mdFiles = files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
-      return mdFiles;
+      return files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
     } catch (e) {
       return [];
     }
@@ -603,11 +738,7 @@
 
   async function loadPosts() {
     const files = await fetchPostList();
-
-    if (files.length === 0) {
-      renderEmptyState();
-      return;
-    }
+    if (files.length === 0) { renderEmptyState(); return; }
 
     const postPromises = files.map(async file => {
       const text = await fetchPostContent(file.download_url);
@@ -623,10 +754,7 @@
     });
 
     allPosts = await Promise.all(postPromises);
-
-    // Sort by date descending
     allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
     renderPostList('home-post-list', allPosts.slice(0, 3));
     renderPostList('writing-post-list', allPosts);
   }
@@ -634,52 +762,103 @@
   function renderPostList(listId, posts) {
     const list = document.getElementById(listId);
     if (!list) return;
-
     if (posts.length === 0) {
       list.innerHTML = '<li class="empty-state"><p>No posts yet — check back soon.</p></li>';
       return;
     }
-
-    list.innerHTML = posts.map((post, i) => `
-      <li class="post-item" onclick="openPost(${allPosts.findIndex(ap => ap.title === post.title && ap.date === post.date)})">
-        <span class="post-title">${post.title}</span>
-        <span class="post-meta">
-          ${post.tag ? `<span class="tag ${post.tag}">${post.tag}</span>` : ''}
-          <span class="post-date">${formatDate(post.date)}</span>
-        </span>
-      </li>
-    `).join('');
+    list.innerHTML = posts.map(post => {
+      const idx = allPosts.findIndex(ap => ap.slug === post.slug);
+      const rt = readingTime(post.body);
+      return `
+        <li class="post-item" onclick="openPost(${idx})">
+          <span class="post-title">${post.title}</span>
+          <span class="post-meta">
+            ${post.tag ? `<span class="tag ${post.tag}">${post.tag}</span>` : ''}
+            <span class="read-time">${rt}</span>
+            <span class="post-date">${formatDate(post.date)}</span>
+          </span>
+        </li>
+      `;
+    }).join('');
   }
 
+  // ── SEARCH ──
+  function filterPosts(query) {
+    const q = query.trim().toLowerCase();
+    const filtered = q
+      ? allPosts.filter(p =>
+          p.title.toLowerCase().includes(q) ||
+          p.tag.toLowerCase().includes(q) ||
+          p.body.toLowerCase().includes(q)
+        )
+      : allPosts;
+    renderPostList('writing-post-list', filtered);
+    const count = document.getElementById('search-count');
+    if (count) count.textContent = q ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''}` : '';
+  }
+
+  // ── OPEN / CLOSE POST (with View Transitions + Article JSON-LD) ──
   function openPost(index) {
     const post = allPosts[index];
     if (!post) return;
-    
-    // Switch to writing page first
-    document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-writing').classList.add('active');
-    const btn = document.getElementById('nav-writing');
-    if (btn) btn.classList.add('active');
 
-    // Show post reader
-    document.getElementById('blog-list').style.display = 'none';
-    document.getElementById('post-reader').style.display = 'block';
-    
-    document.getElementById('post-header').innerHTML = `
-      <span class="eyebrow">${post.tag || 'Writing'}</span>
-      <h1 style="font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 0.5rem;">${post.title}</h1>
-      <p style="color: var(--faint); font-size: 0.85rem;">${formatDate(post.date)}</p>
-    `;
+    // Inject Article structured data
+    let ld = document.getElementById('article-ld');
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      ld.id = 'article-ld';
+      document.head.appendChild(ld);
+    }
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      'headline': post.title,
+      'datePublished': post.date,
+      'keywords': post.tag,
+      'author': { '@id': 'https://omololaomolambe.com/#person' },
+      'publisher': { '@id': 'https://omololaomolambe.com/#person' },
+      'mainEntityOfPage': { '@type': 'WebPage', '@id': 'https://omololaomolambe.com' }
+    });
 
-    document.getElementById('post-body').innerHTML = marked.parse(post.body);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const rt = readingTime(post.body);
+    const update = () => {
+      document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+      document.querySelectorAll('nav ul button').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-writing').classList.add('active');
+      const btn = document.getElementById('nav-writing');
+      if (btn) btn.classList.add('active');
+      document.getElementById('blog-list').style.display = 'none';
+      document.getElementById('post-reader').style.display = 'block';
+      document.getElementById('post-header').innerHTML = `
+        <span class="eyebrow">${post.tag || 'Writing'}</span>
+        <h1 style="font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 0.5rem;">${post.title}</h1>
+        <p style="color: var(--faint); font-size: 0.85rem;">${formatDate(post.date)} · <span class="read-time">${rt}</span></p>
+      `;
+      document.getElementById('post-body').innerHTML = marked.parse(post.body);
+      window.scrollTo({ top: 0 });
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(update);
+    } else {
+      update();
+    }
   }
 
   function closePost() {
-    document.getElementById('blog-list').style.display = 'block';
-    document.getElementById('post-reader').style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const ld = document.getElementById('article-ld');
+    if (ld) ld.remove();
+    const update = () => {
+      document.getElementById('blog-list').style.display = 'block';
+      document.getElementById('post-reader').style.display = 'none';
+      window.scrollTo({ top: 0 });
+    };
+    if (document.startViewTransition) {
+      document.startViewTransition(update);
+    } else {
+      update();
+    }
   }
 
   function renderEmptyState() {
@@ -689,7 +868,6 @@
     });
   }
 
-  // Load posts on page load
   loadPosts();
 </script>
 </body>
