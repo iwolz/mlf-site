@@ -893,9 +893,9 @@
   <div class="inner">
     <p>© 2026 Omolola Omolambe · London, UK</p>
     <p>
-      <a href="#" onclick="showPage('writing')">Writing</a> ·
-      <a href="#" onclick="showPage('now')">Now</a> ·
-      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#writing" onclick="showPage('writing')">Writing</a> ·
+      <a href="#now" onclick="showPage('now')">Now</a> ·
+      <a href="#about" onclick="showPage('about')">About</a>
     </p>
   </div>
 </footer>
@@ -938,12 +938,16 @@
         if (search) { search.value = ''; filterPosts(''); }
       }
     };
+    location.hash = name === 'home' ? '' : name;
     if (document.startViewTransition) {
       document.startViewTransition(update);
     } else {
       update();
     }
   }
+
+  // ── INITIAL PAGE FROM URL HASH ──
+  showPage(location.hash.replace('#', '') || 'home');
 
   // ── NETLIFY IDENTITY REDIRECT ──
   if (window.netlifyIdentity) {
