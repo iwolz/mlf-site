@@ -361,8 +361,16 @@
     .about-text h3 { margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1rem; font-family: var(--sans); font-weight: 600; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
     .skill-tag {
-      font-size: 0.78rem; font-weight: 500; padding: 0.25rem 0.65rem;
-      border-radius: 2px; background: var(--surface); border: 1px solid var(--rule); color: var(--muted);
+      font-size: 0.78rem; font-weight: 500; padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--rule); color: var(--muted);
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      cursor: default;
+    }
+    .skill-tag:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
     footer { border-top: 1px solid var(--rule); padding: 2.2rem 2rem; }
