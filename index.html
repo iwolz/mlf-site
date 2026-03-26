@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
   <!-- Theme init: runs before any rendering to prevent flash of wrong theme -->
-  <script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})()</script>
+  <script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'dark');document.documentElement.setAttribute('data-theme',t);})()</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -560,7 +560,7 @@
       <li><button id="nav-now" onclick="showPage('now')">Now</button></li>
       <li><button id="nav-about" onclick="showPage('about')">About</button></li>
     </ul>
-    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle colour theme">◐ Dark</button>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle colour theme">☀ Light</button>
   </div>
 </nav>
 
@@ -907,7 +907,7 @@
   // ── THEME ──
   function initTheme() {
     const saved = localStorage.getItem('theme');
-    const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const preferred = 'dark';
     applyTheme(saved || preferred, false);
   }
   function applyTheme(theme, save = true) {

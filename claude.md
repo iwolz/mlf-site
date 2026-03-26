@@ -3,7 +3,7 @@
 ## What this project is
 
 A personal website and blog for Omolola Omolambe, built as a birthday gift by Wole.
-The site showcases her work as a Senior Software Engineer at Checkout.com and hosts her writing.
+The site showcases her work as a Senior Software Engineering talent and hosts her writing.
 
 The site is modelled on the format of [timdietrich.me](https://timdietrich.me) — clean,
 editorial, personal brand style with a writing/blog section at its core.
@@ -18,19 +18,22 @@ editorial, personal brand style with a writing/blog section at its core.
 | **CMS admin** | https://omololaomolambe.com/admin |
 | **GitHub repo** | https://github.com/iwolz/mlf-site |
 | **Netlify dashboard** | app.netlify.com (logged in as woleolorunleke@gmail.com) |
-| **Namecheap domain** | omololaomolambe.com — registered, pointing to Netlify DNS |
+| **Namecheap domain** | omololaomolambe.com — registered, pointing to Netlify DNS (originally) but this has been moved to CloudFlare as it is easier to host an SPA
 
 ---
 
 ## Tech stack
 
 - **Single HTML file** — the entire site is `index.html`. No framework, no build step.
-- **Hosting** — Netlify (free tier), connected to GitHub. Auto-deploys on every push.
-- **CMS** — Netlify CMS (Decap CMS) at `/admin`. Uses Netlify Identity + Git Gateway.
+- **Initial Hosting** — Netlify (free tier), connected to GitHub. Auto-deploys on every push. *discontinued*
+- **Current Hosting** — CloudFlare (free tier), connected to GitHub. Auto-deploys on every push.
+- **CMS** — Netlify CMS (Decap CMS) at `/admin`. Uses Netlify Identity + Git Gateway. *discontinued*
+- **Current CMS** — Nothing for now (Exploring CloudFlare as an option)
 - **Blog posts** — stored as markdown files in `/posts/` folder in the GitHub repo.
 - **Post rendering** — the site fetches posts from the GitHub API at runtime and renders them client-side using `marked.js`.
-- **DNS** — Namecheap domain, nameservers pointing to Netlify.
-- **SSL** — auto-provisioned by Netlify via Let's Encrypt.
+- **DNS** — Namecheap domain, nameservers pointing to CloudFlare (Formerly, Netlify).
+- **Old SSL** — auto-provisioned by Netlify via Let's Encrypt. *discontinued*
+- **New SSL** — auto-provisioned by CloudFlare
 
 ---
 
@@ -51,14 +54,16 @@ editorial, personal brand style with a writing/blog section at its core.
 ```
 mlf-site/
 ├── index.html          ← entire site (HTML + CSS + JS in one file)
+├── favicon.svg         ← LO monogram favicon (dark navy, white L + blue O)
 ├── admin/
 │   ├── config.yml      ← Netlify CMS configuration
 │   └── index.html      ← CMS admin interface loader
 ├── posts/
 │   ├── .gitkeep
-│   └── 2026-03-05-my-first-post.md   ← example post
+│   └── YYYY-MM-DD-post-title.md
 ├── images/
-│   └── .gitkeep        ← store post images here
+│   ├── .gitkeep
+│   └── mlf_site_profile_picture.jpg  ← profile photo used on About page
 └── README.md
 ```
 
@@ -178,12 +183,46 @@ Slate & lavender:
 
 | Page | Description |
 |------|-------------|
-| **Home** | Hero, areas of focus, latest 3 posts |
+| **Home** | Hero (terminal card animation), areas of focus, latest 3 posts |
 | **Writing** | Full post list + post reader (click to open post inline) |
 | **Now** | Currently reading (with progress bars), building, life, thinking |
-| **About** | Bio, skill tags, GitHub/LinkedIn/Medium/email links |
+| **About** | Bio, profile photo, skill tags, skills flow diagram, social links |
 
 Navigation is handled client-side — all pages are in one HTML file, shown/hidden via JavaScript.
+
+### URL hash routing
+
+Pages are addressable via URL hash — navigating to Writing sets the URL to `/#writing`, etc.
+Refreshing the page or sharing a direct link (e.g. `omololaomolambe.com/#about`) lands on the correct page.
+`showPage()` writes `location.hash` on every navigation; on load, the hash is read to restore the page.
+
+---
+
+## Key features implemented
+
+- **Dark / light mode** — toggle in nav, persists to `localStorage`, flash-free via inline `<script>` in `<head>`
+- **Reading time** — calculated at post open (word count ÷ 200 wpm), shown in post header
+- **Full-text search** — search input on Writing page filters posts client-side
+- **View Transitions API** — animated page transitions via `document.startViewTransition()`
+- **JSON-LD structured data** — Person + WebSite schemas in `<head>`, BlogPosting injected per post
+- **Post caching** — GitHub API responses cached in `sessionStorage` to avoid repeat fetches
+- **Skills flow diagram** — inline SVG on About page (Domain → Architecture → Stack → Infrastructure) with bezier connectors, dark mode aware
+- **Terminal hero card** — animated typewriter on home page hero typing `show --stack`, reveals a 3-column skills listing (architecture / stack / infra) as terminal output
+- **Favicon** — `favicon.svg`: LO monogram, dark navy rounded square, white L + accent-blue O
+- **Profile photo** — `images/mlf_site_profile_picture.jpg`, circular crop on About page
+
+---
+
+## Hero terminal card
+
+The right column of the home page hero is a dark terminal card (`.hero-terminal`) with:
+- macOS traffic-light dots and `omolola.sh` title bar
+- Typewriter animation typing `show --stack` (12 chars, `steps(12, end)`, starts at 0.7s)
+- Cursor blinks 3× after typing (1.3s–2.8s), then disappears
+- Output fades in at 2s: three color-coded directory listings (architecture/ stack/ infra/)
+- Second blinking prompt fades in at 2.4s
+
+Hidden on mobile (≤680px breakpoint). Max-width: 528px.
 
 ---
 
@@ -224,7 +263,7 @@ collections:
 
 Once a post is live on the site:
 1. Go to Medium → **Stories → Import a story**
-2. Paste the post URL e.g. `https://omololaomolambe.com`
+2. Paste the post URL e.g. `https://omololaomolambe.com/#writing`
 3. Medium imports and sets the **canonical URL** back to her site
 4. This protects SEO — Google treats her site as the original source
 
@@ -232,12 +271,9 @@ Once a post is live on the site:
 
 ## Known issues / outstanding items
 
-- [ ] Post clicking from Home page required a fix to `openPost()` to switch to Writing page first before showing post reader
-- [ ] Profile photo placeholder (OO initials) — to be replaced with real photo when Omolola is ready
 - [ ] GitHub/LinkedIn/Medium URLs in About page still use placeholder paths — need real URLs
 - [ ] Netlify Identity invite to be re-sent to Omolola's own email before birthday reveal
 - [ ] Now page content is placeholder — update with real books and life updates before launch
-- [ ] DNS propagation for omololaomolambe.com — confirm SSL is fully provisioned
 
 ---
 
