@@ -341,6 +341,36 @@
 
     .now-updated { font-size: 0.78rem; color: var(--faint); font-style: italic; margin-top: 2rem; }
 
+    /* ── SKILL DIAGRAM ── */
+    .skill-diagram-wrap {
+      margin-top: 3rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--rule);
+      overflow-x: auto;
+    }
+    .skill-diagram-title {
+      font-family: var(--sans); font-size: 1rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 1.6rem;
+    }
+    .s-diag { display: block; width: 100%; min-width: 500px; }
+    .s-hdr  {
+      font-family: var(--sans); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.1em; text-anchor: middle; fill: var(--faint);
+    }
+    .s-ntxt {
+      font-family: var(--sans); font-size: 11.5px; font-weight: 500;
+      text-anchor: middle; dominant-baseline: middle;
+      fill: #fff; pointer-events: none;
+    }
+    .s-conn { fill: none; stroke: var(--rule); stroke-width: 1.2; }
+    .s-domain { fill: var(--teal); }
+    .s-arch   { fill: var(--accent); }
+    .s-stack  { fill: #6b5aad; }
+    .s-infra  { fill: #4a8a6a; }
+    [data-theme="dark"] .s-domain { fill: #5aa8c8; }
+    [data-theme="dark"] .s-arch   { fill: #4a80c0; }
+    [data-theme="dark"] .s-stack  { fill: #7a6acd; }
+    [data-theme="dark"] .s-infra  { fill: #5aaa7a; }
+
     /* ── ABOUT ── */
     .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3.5rem; align-items: start; }
     .avatar-placeholder {
@@ -681,24 +711,73 @@
           <p>I'm a Senior Software Engineer at Checkout.com, working on the infrastructure that powers payments. I care deeply about building systems that are reliable, observable, and maintainable.</p>
           <p>I'm originally from Nigeria and recently moved to London. I find myself endlessly curious about how large-scale systems work, and I try to document what I learn so it's useful for others too.</p>
           <p>This site is a place to think out loud — about engineering, career growth, books, and whatever else I'm working through.</p>
-          <h3>Skills & technologies</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Distributed Systems</span>
-            <span class="skill-tag">Payments</span>
-            <span class="skill-tag">Event-driven Architecture</span>
-            <span class="skill-tag">APIs</span>
-            <span class="skill-tag">System Design</span>
-            <span class="skill-tag">Java</span>
-            <span class="skill-tag">Kotlin</span>
-            <span class="skill-tag">Go</span>
-            <span class="skill-tag">Kubernetes</span>
-            <span class="skill-tag">AWS</span>
-          </div>
           <h3 style="margin-top:2rem;">Get in touch</h3>
           <p>I'm always happy to connect with other engineers, especially those working in fintech or distributed systems.</p>
           <a href="mailto:hello@omololaomolambe.com" class="btn btn-primary" style="margin-top:0.5rem;display:inline-block;">Say hello →</a>
         </div>
       </div>
+
+      <!-- Full-width skills flow diagram -->
+      <div class="skill-diagram-wrap">
+        <p class="skill-diagram-title">How I think about my stack</p>
+        <svg class="s-diag" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Skills flow: Domain expertise in Payments and Fintech, through Architecture (Distributed Systems, Event-driven, System Design, APIs), implemented in Stack (Java, Kotlin, Go), running on Infrastructure (Kubernetes, AWS)">
+
+          <!-- Connector lines — drawn first so they sit behind nodes -->
+          <!-- Domain → Architecture -->
+          <path class="s-conn" d="M115,49 C140,49 140,39 165,39"/>
+          <path class="s-conn" d="M115,49 C140,49 140,83 165,83"/>
+          <path class="s-conn" d="M115,93 C140,93 140,127 165,127"/>
+          <path class="s-conn" d="M115,93 C140,93 140,171 165,171"/>
+          <!-- Architecture → Stack -->
+          <path class="s-conn" d="M325,39 C354,39 354,65 383,65"/>
+          <path class="s-conn" d="M325,83 C354,83 354,65 383,65"/>
+          <path class="s-conn" d="M325,127 C354,127 354,109 383,109"/>
+          <path class="s-conn" d="M325,171 C354,171 354,153 383,153"/>
+          <!-- Stack → Infrastructure -->
+          <path class="s-conn" d="M483,65 C509,65 509,87 535,87"/>
+          <path class="s-conn" d="M483,109 C509,109 509,87 535,87"/>
+          <path class="s-conn" d="M483,109 C509,109 509,131 535,131"/>
+          <path class="s-conn" d="M483,153 C509,153 509,131 535,131"/>
+
+          <!-- Column headers -->
+          <text class="s-hdr" x="57"  y="18">Domain</text>
+          <text class="s-hdr" x="245" y="18">Architecture</text>
+          <text class="s-hdr" x="433" y="18">Stack</text>
+          <text class="s-hdr" x="607" y="18">Infrastructure</text>
+
+          <!-- Domain -->
+          <rect class="s-domain" x="0"   y="32" width="115" height="34" rx="17"/>
+          <text class="s-ntxt"   x="57"  y="49">Payments</text>
+          <rect class="s-domain" x="0"   y="76" width="115" height="34" rx="17"/>
+          <text class="s-ntxt"   x="57"  y="93">Fintech</text>
+
+          <!-- Architecture -->
+          <rect class="s-arch" x="165" y="22"  width="160" height="34" rx="17"/>
+          <text class="s-ntxt" x="245" y="39">Distributed Systems</text>
+          <rect class="s-arch" x="165" y="66"  width="160" height="34" rx="17"/>
+          <text class="s-ntxt" x="245" y="83">Event-driven Arch</text>
+          <rect class="s-arch" x="165" y="110" width="160" height="34" rx="17"/>
+          <text class="s-ntxt" x="245" y="127">System Design</text>
+          <rect class="s-arch" x="165" y="154" width="160" height="34" rx="17"/>
+          <text class="s-ntxt" x="245" y="171">APIs</text>
+
+          <!-- Stack -->
+          <rect class="s-stack" x="383" y="48"  width="100" height="34" rx="17"/>
+          <text class="s-ntxt"  x="433" y="65">Java</text>
+          <rect class="s-stack" x="383" y="92"  width="100" height="34" rx="17"/>
+          <text class="s-ntxt"  x="433" y="109">Kotlin</text>
+          <rect class="s-stack" x="383" y="136" width="100" height="34" rx="17"/>
+          <text class="s-ntxt"  x="433" y="153">Go</text>
+
+          <!-- Infrastructure -->
+          <rect class="s-infra" x="535" y="70"  width="145" height="34" rx="17"/>
+          <text class="s-ntxt"  x="607" y="87">Kubernetes</text>
+          <rect class="s-infra" x="535" y="114" width="145" height="34" rx="17"/>
+          <text class="s-ntxt"  x="607" y="131">AWS</text>
+        </svg>
+      </div>
+
     </div>
   </section>
 </div>
