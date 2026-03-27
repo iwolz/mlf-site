@@ -992,14 +992,16 @@
   }
 
   async function fetchPostList() {
-    try {
-      const res = await fetch('https://api.github.com/repos/iwolz/mlf-site/contents/posts');
-      if (!res.ok) throw new Error('Could not fetch posts');
-      const files = await res.json();
-      return files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
-    } catch (e) {
-      return [];
-    }
+    // Posts temporarily hidden for review — re-enable by restoring the fetch below
+    return [];
+    // try {
+    //   const res = await fetch('https://api.github.com/repos/iwolz/mlf-site/contents/posts');
+    //   if (!res.ok) throw new Error('Could not fetch posts');
+    //   const files = await res.json();
+    //   return files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
+    // } catch (e) {
+    //   return [];
+    // }
   }
 
   async function fetchPostContent(downloadUrl) {
